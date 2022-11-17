@@ -4,7 +4,7 @@ module.exports = {
       table.integer('ArticleID', 10)
         .unsigned()
         .references('ArticleID')
-        .inTable('Article');
+        .inTable('article');
       table.integer('ExtraCharacterPrice', 10);
       table.string('Type', 10);
     });
