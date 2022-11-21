@@ -1,5 +1,4 @@
-let { PRICEDATA } = require('../data/mock-data');
-const articleRepository = require('../repository/article');
+const articleRepository = require('../repository/articles');
 
 const getAll = async () => {
   const items = await articleRepository.getAll();

@@ -4,7 +4,7 @@ module.exports = {
       table.increments('UserID');
       table.string('Username', 32);
       table.string('Email', 64);
-      table.string('Password', 64);
+      table.string('Password', 128);
       table.smallint('isAdmin', 1);
     });
   },

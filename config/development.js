@@ -16,5 +16,20 @@ module.exports = {
     name: 'webshop',
     username: 'root',
     password: 'root'
+  },
+
+  auth: {
+    argon: {
+      saltLength: 16,
+      hashLength: 32,
+      timeCost: 6,
+      memoryCost: 2 ** 17,
+    },
+    jwt: {
+      secret: 'ditiseensecretdieveeltemoeilijkisomteradenalshetgeradenwordtdanisdesitegehacked',
+      expirationInterval: 60*60*1000,
+      issuer: 'deewatter.webshop.com',
+      audience: 'deewatter.webshop.com'
+    }
   }
 }

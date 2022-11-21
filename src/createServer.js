@@ -4,7 +4,7 @@ const bodyParser = require('koa-bodyparser');
 const Router = require('@koa/router');
 const koaCors = require('@koa/cors');
 const { getLogger } = require('./core/logging');
-const articleRest = require('./rest/article');
+const installRest = require('./rest/index');
 
 const CORS_ORIGINS = config.get('cors.origins');
 const CORS_MAX_AGE = config.get('cors.maxAge');
@@ -28,21 +28,7 @@ function start() {
   .use(router.routes())
   .use(router.allowedMethods());
   
-  router.get('/api/articles', async (ctx) => {
-    await articleRest.getAll(ctx);
-  });
-
-  router.get('/api/articles/portraits', async (ctx) => {
-    await articleRest.getAllPortraits(ctx);
-  });
-
-  router.get('/api/articles/portraits/:type', async (ctx) => {
-    await articleRest.getPortraitByType(ctx, ctx.params.type);
-  });
-
-  router.get('/api/articles/:id', async (ctx) => {
-    await articleRest.getById(ctx, ctx.params.id);
-  });
+  installRest(router);
   
   logger.info(`🚀 Server listening on http://localhost:9000`);
   app.listen(9000);
