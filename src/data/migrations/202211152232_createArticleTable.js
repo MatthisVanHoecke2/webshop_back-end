@@ -3,7 +3,7 @@ module.exports = {
     await knex.schema.createTable('article', (table) => {
       table.increments('ArticleID');
       table.string('Name', 20);
-      table.integer('Price', 10);
+      table.double('Price', 10);
       table.string('ImageUrl', 255);
       table.string('Description', 250);
     })

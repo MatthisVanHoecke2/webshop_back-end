@@ -5,9 +5,12 @@ module.exports = {
       table.integer('UserID', 10)
         .unsigned()
         .references('UserID')
-        .inTable('user');
+        .inTable('user')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE');
       table.date('Date');
-      table.string('Status', 15);
+      table.double('OrderPrice');
+      table.string('TransactionStatus', 15);
       table.primary(['OrderID', 'UserID']);
     });
   },

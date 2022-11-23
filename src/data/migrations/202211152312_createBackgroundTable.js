@@ -4,8 +4,10 @@ module.exports = {
       table.integer('ArticleID', 10)
         .unsigned()
         .references('ArticleID')
-        .inTable('article');
-      table.decimal('Detailed');
+        .inTable('article')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE');
+      table.double('Detailed');
     });
   },
   down: (knex) => {

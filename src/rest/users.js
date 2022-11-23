@@ -7,15 +7,12 @@ const getAll = async (ctx) => {
 const getById = async (ctx) => {
   ctx.body = await userService.getById(ctx.params.id);
 }
-const create = async (ctx) => {
-  ctx.body = await userService.create(ctx.request.body);
-}
 const update = async (ctx) => {
   ctx.body = await userService.update({ id: ctx.params.id, ...ctx.request.body });
 }
 const login = async (ctx) => {
-  const { nameOrEmail, password } = ctx.request.body;
-  const session = await userService.login(nameOrEmail, password);
+  const { user, password } = ctx.request.body;
+  const session = await userService.login(user, password);
   ctx.body = session;
 }
 const register = async (ctx) => {
@@ -29,9 +26,8 @@ module.exports = (router) => {
   const requireAdmin = makeRequireRole();
 
   router.get(prefix, requireAuthentication, requireAdmin, getAll);
-  router.get(`${prefix}/:id`, requireAuthentication, getById);
-  router.post(prefix, requireAuthentication, create);
-  router.put(`${prefix}/:id`, requireAuthentication, update);
-  router.post(`${prefix}/login`, requireAuthentication, login);
-  router.post(`${prefix}/register`, requireAuthentication, register);
+  router.get(`${prefix}/:id`, requireAuthentication, requireAdmin, getById);
+  router.put(`${prefix}/:id`, requireAuthentication, requireAdmin, update);
+  router.post(`${prefix}/login`, login);
+  router.post(`${prefix}/register`, register);
 }

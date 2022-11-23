@@ -10,10 +10,6 @@ const getById = async (id) => {
   const items = await userRepository.getById(id);
   return {items: items, count: items.length};
 }
-const create = async (insertData) => {
-  const items = await userRepository.create(insertData);
-  return {items: items, count: items.length};
-}
 const update = async (updateData) => {
   const items = await userRepository.update(updateData);
   return {items: items, count: items.length};
@@ -32,7 +28,7 @@ const makeExposedUser = ({ id, name, email, isAdmin }) => ({
 const makeLoginData = async (user) => {
   const token = await generateJWT(user);
   return {
-    user: makeExposedUser(...user),
+    user: makeExposedUser(user),
     token
   }
 }
@@ -42,7 +38,6 @@ const login = async (nameOrEmail, password) => {
   if(!user) {
     throw new Error("The given user and password do not match");
   }
-
   const passwordValid = await verifyPassword(password, user.password);
 
   if(!passwordValid) {
@@ -85,7 +80,6 @@ module.exports = {
   getById,
   login,
   register,
-  create,
   update,
   checkAndParseSession,
   checkRole

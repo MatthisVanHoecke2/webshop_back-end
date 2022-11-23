@@ -23,8 +23,8 @@ const getById = async (id) => {
 const getByEmailOrUsername = async (input) => {
   const user = await getKnex()(tables.user)
     .select()
-    .whereRaw('LOWER(Email) = LOWER(?) OR LOWER(Username) = LOWER(?)', input, input);
-  return user.map(formatUser);
+    .whereRaw('LOWER(Email) = ? OR LOWER(Username) = ?', [input.toLowerCase(), input.toLowerCase()]);
+  return user.map(formatUser)[0];
 }
 const create = async ({ name, email, password, isAdmin }) => {
   try {

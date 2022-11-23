@@ -4,8 +4,10 @@ module.exports = {
       table.integer('ArticleID', 10)
         .unsigned()
         .references('ArticleID')
-        .inTable('article');
-      table.integer('ExtraCharacterPrice', 10);
+        .inTable('article')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE');
+      table.double('ExtraCharacterPrice', 10);
       table.string('Type', 10);
     });
   },
