@@ -10,7 +10,7 @@ const formatOrder = ({ OrderID, UserID, Date, Status }) => ({
 
 const getAll = async () => {
   const order = await getKnex()(tables.order)
-    .select();
+    .select()
   return order.map(formatOrder);
 }
 

@@ -1,6 +1,7 @@
 const userRepository = require("../repository/users");
 const { verifyPassword, hashPassword } = require("../core/password");
 const { generateJWT, verifyJWT } = require("../core/jwt");
+const { getLogger } = require("../core/logging");
 
 const getAll = async () => {
   const items = await userRepository.getAll();
@@ -11,13 +12,17 @@ const getById = async (id) => {
   return {items: items, count: items.length};
 }
 const update = async (updateData) => {
+  if(updateData.password) {
+    passwordHash = await hashPassword(updateData.password);
+    updateData["password"] = passwordHash;
+  }
   const items = await userRepository.update(updateData);
   return {items: items, count: items.length};
 }
 
 const register = async ({name, email, password}) => {
   const passwordHash = await hashPassword(password);
-  const user = await userRepository.create({name, email, passwords: passwordHash, isAdmin: false});
+  const user = await userRepository.create({name, email, password: passwordHash, isAdmin: false});
 
   return await makeLoginData(user);
 }
@@ -58,13 +63,13 @@ const checkAndParseSession = async (authHeader) => {
 
   const authToken = authHeader.substr(7);
   try {
-    const {isAdmin, id} = await verifyJWT(authToken);
-    return { id, isAdmin, authToken };
+    const { userId, isAdmin } = await verifyJWT(authToken);
+    return { id: userId, isAdmin, authToken };
   }
   catch(error) {
     const logger = getLogger();
-    logger.error(error.message, { error });
-		throw new Error(error.message);
+    logger.error(error.message);
+    return error;
   }
 }
 const checkRole = (isAdmin) => {

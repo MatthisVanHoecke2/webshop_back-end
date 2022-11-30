@@ -3,11 +3,14 @@ const userService = require('../service/users');
 module.exports.requireAuthentication = async (ctx, next) => {
   const {authorization} = ctx.headers;
 
-  const {authToken, ...session} = await userService.checkAndParseSession(authorization);
+  const checkAndParse = await userService.checkAndParseSession(authorization);
+
+  if(!checkAndParse) return;
+  
+  const {authToken, ...session} = checkAndParse;
 
   ctx.state.session = session;
   ctx.state.authToken = authToken;
-
   return next();
 }
 

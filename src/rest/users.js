@@ -20,14 +20,25 @@ const register = async (ctx) => {
   ctx.body = session;
 }
 
+const getByToken = async (ctx) => {
+  const session = await userService.checkAndParseSession(ctx.headers.authorization);
+  if(session.message) {
+    ctx.status = 500;
+    ctx.body = session.message;
+  }
+  else ctx.body = await userService.getById(session.id);
+  
+}
+
 module.exports = (router) => {
   const prefix = "/api/users";
 
   const requireAdmin = makeRequireRole();
 
   router.get(prefix, requireAuthentication, requireAdmin, getAll);
-  router.get(`${prefix}/:id`, requireAuthentication, requireAdmin, getById);
+  router.get(`${prefix}/token`, requireAuthentication, getByToken);
+  router.get(`${prefix}/:id`, requireAuthentication, getById);
   router.put(`${prefix}/:id`, requireAuthentication, requireAdmin, update);
   router.post(`${prefix}/login`, login);
-  router.post(`${prefix}/register`, register);
+  router.post(`${prefix}`, register);
 }

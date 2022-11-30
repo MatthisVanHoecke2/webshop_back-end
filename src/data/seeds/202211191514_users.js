@@ -4,6 +4,7 @@ module.exports = {
 	seed: async (knex) => {
 		// first delete all entries
 		await knex(tables.user).delete();
+		await knex.schema.raw(`ALTER TABLE ${tables.user} AUTO_INCREMENT = 1`);
 
 		// then add the fresh users (all passwords are 12345678)
 		await knex(tables.user).insert([

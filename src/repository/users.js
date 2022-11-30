@@ -39,10 +39,17 @@ const create = async ({ name, email, password, isAdmin }) => {
   }
 } 
 const update = async ({ id, name, email, password, isAdmin }) => {
+  let data = { Username: name, Email: email, Password: password, isAdmin };
+
+  if(!name) delete data["Username"];
+  if(!email) delete data["Email"];
+  if(!password) delete data["Password"];
+  if(!isAdmin) delete data["isAdmin"];
+  
   try {
     await getKnex()(tables.user)
       .where('UserID', id)
-      .update({ Username: name, Email: email, Password: password, isAdmin });
+      .update(data);
     return await getById(id);
   }
   catch(error) {

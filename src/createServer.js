@@ -8,6 +8,7 @@ const installRest = require('./rest/index');
 
 const CORS_ORIGINS = config.get('cors.origins');
 const CORS_MAX_AGE = config.get('cors.maxAge');
+const port = config.get('port');
 const app = new Koa();
 const logger = getLogger();
 const router = new Router();
