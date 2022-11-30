@@ -20,10 +20,10 @@ const getById = async (id) => {
     .where('UserID', id);
   return user.map(formatUser);
 }
-const getByEmailOrUsername = async (input) => {
+const getByEmailOrUsername = async ({name, email}) => {
   const user = await getKnex()(tables.user)
     .select()
-    .whereRaw('LOWER(Email) = ? OR LOWER(Username) = ?', [input.toLowerCase(), input.toLowerCase()]);
+    .whereRaw('LOWER(Email) = ? OR LOWER(Username) = ?', [email ? email.toLowerCase() : name.toLowerCase(), name.toLowerCase()]);
   return user.map(formatUser)[0];
 }
 const create = async ({ name, email, password, isAdmin }) => {

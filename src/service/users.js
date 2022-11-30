@@ -16,11 +16,21 @@ const update = async (updateData) => {
     passwordHash = await hashPassword(updateData.password);
     updateData["password"] = passwordHash;
   }
+  if(updateData.name && updateData.email) {
+    const existingUser = await userRepository.getByEmailOrUsername({name: updateData.name, email : updateData.email});
+    if(existingUser) throw new Error('User already exists');
+  }
+
+
   const items = await userRepository.update(updateData);
   return {items: items, count: items.length};
 }
 
 const register = async ({name, email, password}) => {
+  const existingUser = await userRepository.getByEmailOrUsername({name, email});
+
+  if(existingUser) throw new Error('User already exists');
+
   const passwordHash = await hashPassword(password);
   const user = await userRepository.create({name, email, password: passwordHash, isAdmin: false});
 
@@ -38,7 +48,7 @@ const makeLoginData = async (user) => {
   }
 }
 const login = async (nameOrEmail, password) => {
-  const user = await userRepository.getByEmailOrUsername(nameOrEmail);
+  const user = await userRepository.getByEmailOrUsername({name: nameOrEmail});
 
   if(!user) {
     throw new Error("The given user and password do not match");

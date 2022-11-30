@@ -38,7 +38,7 @@ module.exports = (router) => {
   router.get(prefix, requireAuthentication, requireAdmin, getAll);
   router.get(`${prefix}/token`, requireAuthentication, getByToken);
   router.get(`${prefix}/:id`, requireAuthentication, getById);
-  router.put(`${prefix}/:id`, requireAuthentication, requireAdmin, update);
+  router.put(`${prefix}/:id`, requireAuthentication, update);
   router.post(`${prefix}/login`, login);
   router.post(`${prefix}`, register);
 }
