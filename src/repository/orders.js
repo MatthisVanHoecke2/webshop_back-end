@@ -11,7 +11,22 @@ const formatOrder = ({ OrderID, UserID, Date, Status }) => ({
 const getAll = async () => {
   const order = await getKnex()(tables.order)
     .select()
+    .orderBy('date', 'desc');
   return order.map(formatOrder);
+}
+
+const countAll = async () => {
+  const order = await getKnex()(tables.order)
+    .count({count: '*'});
+  return order;
+}
+
+const getRecent = async () => {
+  const orders = await getKnex()(tables.order)
+  	.select()
+    .orderBy('Date', 'desc')
+    .limit(10);
+  return orders.map(formatOrder);
 }
 
 const getByOrderId = async (id) => {
@@ -31,5 +46,7 @@ const getByUserId = async (id) => {
 module.exports = {
   getAll,
   getByOrderId,
-  getByUserId
+  getByUserId,
+  countAll,
+  getRecent
 }

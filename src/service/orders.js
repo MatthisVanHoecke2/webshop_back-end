@@ -15,8 +15,20 @@ const getByUserId = async (id) => {
   return { items: items, count: items.length};
 }
 
+const countAll = async () => {
+  const items = await orderRepository.countAll();
+  return { items: items };
+}
+
+const getRecent = async () => {
+  const items = await orderRepository.getRecent();
+  return { items: items, count: items.length };
+}
+
 module.exports = {
   getAll,
   getByOrderId,
-  getByUserId
+  getByUserId,
+  countAll,
+  getRecent
 }

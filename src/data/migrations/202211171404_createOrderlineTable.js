@@ -1,15 +1,10 @@
 module.exports = {
   up: async (knex) => {
     await knex.schema.createTable('orderline', (table) => {
+      table.increments('OrderlineID')
       table.integer('OrderID', 10)
         .unsigned()
         .references('OrderID')
-        .inTable('order')
-        .onUpdate('CASCADE')
-        .onDelete('CASCADE');
-      table.integer('UserID', 10)
-        .unsigned()
-        .references('UserID')
         .inTable('order')
         .onUpdate('CASCADE')
         .onDelete('CASCADE');

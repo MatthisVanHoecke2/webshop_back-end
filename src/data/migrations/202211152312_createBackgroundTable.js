@@ -7,7 +7,7 @@ module.exports = {
         .inTable('article')
         .onUpdate('CASCADE')
         .onDelete('CASCADE');
-      table.double('Detailed');
+      table.double('Detailed').notNullable();
     });
   },
   down: (knex) => {
