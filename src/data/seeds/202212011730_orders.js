@@ -11,17 +11,20 @@ module.exports = {
 			{
 				UserID: 1,
 				Date: '2022-12-01',
-				OrderPrice: 66.00
+				OrderPrice: 66.00,
+				Status: 'In Progress'
 			},
       {
 				UserID: 1,
 				Date: '2022-12-01',
-				OrderPrice: 88.00
+				OrderPrice: 88.00,
+				Status: 'Done'
 			},
       {
 				UserID: 1,
 				Date: '2022-12-01 18:00:00',
-				OrderPrice: 111.00
+				OrderPrice: 111.00,
+				Status: 'Done'
 			},
       {
 				UserID: 1,

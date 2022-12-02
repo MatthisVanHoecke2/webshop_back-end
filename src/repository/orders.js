@@ -1,10 +1,11 @@
 const { tables, getKnex } = require('../data/index');
 const { getLogger } = require('../core/logging');
 
-const formatOrder = ({ OrderID, UserID, Date, Status }) => ({
+const formatOrder = ({ OrderID, UserID, OrderPrice, Date, Status }) => ({
   order: OrderID,
   user: UserID,
   date: Date,
+  price: OrderPrice,
   status: Status
 });
 
@@ -17,6 +18,20 @@ const getAll = async () => {
 
 const countAll = async () => {
   const order = await getKnex()(tables.order)
+    .count({count: '*'});
+  return order;
+}
+
+const countCompleted = async () => {
+  const order = await getKnex()(tables.order)
+  	.where('Status', 'Done')
+    .count({count: '*'});
+  return order;
+}
+
+const countPending = async () => {
+  const order = await getKnex()(tables.order)
+  	.whereNot('Status', 'Done')
     .count({count: '*'});
   return order;
 }
@@ -48,5 +63,7 @@ module.exports = {
   getByOrderId,
   getByUserId,
   countAll,
-  getRecent
+  getRecent,
+  countCompleted,
+  countPending
 }

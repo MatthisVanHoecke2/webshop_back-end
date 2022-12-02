@@ -3,6 +3,10 @@ const { verifyPassword, hashPassword } = require("../core/password");
 const { generateJWT, verifyJWT } = require("../core/jwt");
 const { getLogger } = require("../core/logging");
 
+const countAll = async () => {
+  const items = await userRepository.countAll();
+  return { items: items };
+}
 const getAll = async () => {
   const items = await userRepository.getAll();
   return {items: items, count: items.length};
@@ -97,5 +101,6 @@ module.exports = {
   register,
   update,
   checkAndParseSession,
-  checkRole
+  checkRole,
+  countAll
 }

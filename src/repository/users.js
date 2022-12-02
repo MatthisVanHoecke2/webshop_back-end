@@ -9,6 +9,12 @@ const formatUser = ({ UserID, Username, Email, Password, isAdmin }) => ({
   isAdmin: isAdmin === 1 ? true : false
 });
 
+const countAll = async () => {
+  const user = await getKnex()(tables.user)
+    .count({count: '*'});
+  return user;
+}
+
 const getAll = async () => {
   const user = await getKnex()(tables.user)
     .select();
@@ -64,5 +70,6 @@ module.exports = {
   getById,
   getByEmailOrUsername,
   create,
-  update
+  update,
+  countAll
 }

@@ -25,10 +25,22 @@ const getRecent = async () => {
   return { items: items, count: items.length };
 }
 
+const countCompleted = async () => {
+  const items = await orderRepository.countCompleted();
+  return { items: items };
+}
+
+const countPending = async () => {
+  const items = await orderRepository.countPending();
+  return { items: items};
+}
+
 module.exports = {
   getAll,
   getByOrderId,
   getByUserId,
   countAll,
-  getRecent
+  getRecent,
+  countCompleted,
+  countPending
 }
