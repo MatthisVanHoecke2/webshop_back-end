@@ -1,10 +1,11 @@
 const { tables, getKnex } = require('../data/index');
 
-const formatArticle = ({ArticleID, Name, Price, ImageUrl, Description, Detailed, ExtraCharacterPrice, ...rest}) => ({
+const formatArticle = ({ArticleID, Name, Price, ImageUrl, Description, Detailed, ExtraCharacterPrice, Type, ...rest}) => ({
   ...rest,
   id: ArticleID,
   name: Name,
   price: Price,
+  type: Type,
   imageUrl: ImageUrl,
   description: Description,
   extra: Detailed ? Detailed : ExtraCharacterPrice

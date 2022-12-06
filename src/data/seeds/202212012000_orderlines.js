@@ -12,7 +12,8 @@ module.exports = {
 				ArticleID: 1,
         OrderID: 1,
 				PriceByOrder: 22.00,
-        CharacterAmount: 2,
+        CharacterAmount: 0,
+        Detailed: 1,
         ReferenceImageUrl: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
         Status: "In Queue"
 			},
@@ -20,15 +21,17 @@ module.exports = {
 				ArticleID: 1,
         OrderID: 1,
 				PriceByOrder: 22.00,
-        CharacterAmount: 2,
+        CharacterAmount: 0,
+        Detailed: 0,
         ReferenceImageUrl: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
         Status: "Done"
 			},
       {
-				ArticleID: 1,
+				ArticleID: 3,
         OrderID: 1,
 				PriceByOrder: 22.00,
         CharacterAmount: 2,
+        Detailed: 0,
         ReferenceImageUrl: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
         Status: "In Progress"
 			},
@@ -36,7 +39,8 @@ module.exports = {
 				ArticleID: 1,
         OrderID: 1,
 				PriceByOrder: 22.00,
-        CharacterAmount: 2,
+        CharacterAmount: 0,
+        Detailed: 0,
         ReferenceImageUrl: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
         Status: "Done"
 			},
@@ -44,15 +48,17 @@ module.exports = {
 				ArticleID: 1,
         OrderID: 1,
 				PriceByOrder: 22.00,
-        CharacterAmount: 2,
+        CharacterAmount: 0,
+        Detailed: 1,
         ReferenceImageUrl: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
         Status: "In Progress"
 			},
       {
-				ArticleID: 2,
+				ArticleID: 3,
         OrderID: 2,
 				PriceByOrder: 22.00,
         CharacterAmount: 2,
+        Detailed: 0,
         ReferenceImageUrl: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
         Status: "Done"
 			},
@@ -61,30 +67,16 @@ module.exports = {
         OrderID: 2,
 				PriceByOrder: 22.00,
         CharacterAmount: 2,
+        Detailed: 0,
         ReferenceImageUrl: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
         Status: "Done"
 			},
       {
-				ArticleID: 3,
+				ArticleID: 5,
         OrderID: 2,
 				PriceByOrder: 22.00,
         CharacterAmount: 2,
-        ReferenceImageUrl: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
-        Status: "Done"
-			},
-      {
-				ArticleID: 2,
-        OrderID: 3,
-				PriceByOrder: 22.00,
-        CharacterAmount: 2,
-        ReferenceImageUrl: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
-        Status: "Done"
-			},
-      {
-				ArticleID: 4,
-        OrderID: 3,
-				PriceByOrder: 22.00,
-        CharacterAmount: 2,
+        Detailed: 0,
         ReferenceImageUrl: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
         Status: "Done"
 			},
@@ -93,6 +85,25 @@ module.exports = {
         OrderID: 3,
 				PriceByOrder: 22.00,
         CharacterAmount: 2,
+        Detailed: 0,
+        ReferenceImageUrl: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
+        Status: "Done"
+			},
+      {
+				ArticleID: 5,
+        OrderID: 3,
+				PriceByOrder: 22.00,
+        CharacterAmount: 2,
+        Detailed: 0,
+        ReferenceImageUrl: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
+        Status: "Done"
+			},
+      {
+				ArticleID: 3,
+        OrderID: 3,
+				PriceByOrder: 22.00,
+        CharacterAmount: 2,
+        Detailed: 0,
         ReferenceImageUrl: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
         Status: "Done"
 			},

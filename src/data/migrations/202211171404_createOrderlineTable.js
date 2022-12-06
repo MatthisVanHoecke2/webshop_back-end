@@ -19,6 +19,7 @@ module.exports = {
       table.double('PriceByOrder');
       table.smallint('CharacterAmount', 1);
       table.string('ReferenceImageUrl', 200);
+      table.smallint('Detailed', 1);
     });
   },
   down: (knex) => {

@@ -1,6 +1,9 @@
 const orderService = require('../service/orders');
 const { requireAuthentication, makeRequireRole } = require('../core/auth');
 
+const getAll = async (ctx) => {
+  ctx.body = await orderService.getAll();
+}
 const countAll = async (ctx) => {
   ctx.body = await orderService.countAll();
 }
@@ -22,6 +25,7 @@ module.exports = (router) => {
 
   const requireAdmin = makeRequireRole();
 
+  router.get(prefix, requireAuthentication, requireAdmin, getAll);
   router.get(`${prefix}/count`, requireAuthentication, requireAdmin, countAll);
   router.get(`${prefix}/count/completed`, requireAuthentication, requireAdmin, countCompleted);
   router.get(`${prefix}/count/pending`, requireAuthentication, requireAdmin, countPending);

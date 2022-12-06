@@ -10,10 +10,10 @@ const formatOrder = ({ OrderID, UserID, OrderPrice, Date, Status }) => ({
 });
 
 const getAll = async () => {
-  const order = await getKnex()(tables.order)
+  const orders = await getKnex()(tables.order)
     .select()
-    .orderBy('date', 'desc');
-  return order.map(formatOrder);
+    .orderBy('Date', 'desc');
+  return orders.map(formatOrder);
 }
 
 const countAll = async () => {

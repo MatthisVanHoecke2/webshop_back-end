@@ -2,7 +2,7 @@ const orderRepository = require('../repository/orders');
 
 const getAll = async () => {
   const items = await orderRepository.getAll();
-  return { items: items, count: items.length};
+  return {items: items, count: items.length};
 }
 
 const getByOrderId = async (id) => {

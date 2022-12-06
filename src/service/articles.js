@@ -17,22 +17,9 @@ const getPortraitByType = async (type) => {
   return { items: items, count: items.length };
 }
 
-const create = ({amount, date, placeId, user}) => {
-  throw new Error("not implemented yet");
-}
-const updateById = (id, {amount, date, placeId, user}) => {
-  throw new Error("not implemented yet");
-}
-const deleteById = (id) => {
-  throw new Error("not implemented yet");
-}
-
 module.exports = {
   getAll,
   getById,
-  create,
   getAllPortraits,
   getPortraitByType,
-  updateById,
-  deleteById
 }
