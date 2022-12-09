@@ -8,7 +8,9 @@ module.exports = {
         .inTable('user')
         .onUpdate('CASCADE')
         .onDelete('CASCADE');
-      table.datetime('Date').notNullable();
+      table.datetime('Date')
+        .defaultTo(knex.raw('(now())'))
+        .notNullable();
       table.double('OrderPrice').notNullable();
       table.string('Status', 15)
         .defaultTo('In Queue')

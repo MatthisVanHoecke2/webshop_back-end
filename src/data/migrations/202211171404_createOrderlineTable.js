@@ -14,7 +14,9 @@ module.exports = {
         .inTable('article')
         .onUpdate('CASCADE')
         .onDelete('CASCADE');
-      table.string('Status', 15);
+      table.string('Status', 15)
+        .defaultTo('In Queue')
+        .notNullable();
       table.string('UserDescription', 300);
       table.double('PriceByOrder');
       table.smallint('CharacterAmount', 1);

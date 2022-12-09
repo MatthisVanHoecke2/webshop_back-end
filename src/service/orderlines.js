@@ -20,9 +20,15 @@ const update = async (updateData) => {
   return {items: items, count: items.length};
 }
 
+const create = async (data) => {
+  const items = await orderlinesRepository.create(data);
+  return {items: items, count: items.length};
+}
+
 module.exports = {
   getAll,
   getById,
   getByOrderId,
-  update
+  update,
+  create
 };

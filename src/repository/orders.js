@@ -58,6 +58,64 @@ const getByUserId = async (id) => {
   return order.map(formatOrder);
 }
 
+const create = async ({orderData, orderlinesData}) => {
+  try {
+    const [id] = await getKnex()(tables.order)
+      .insert({ UserID: orderData.user, OrderPrice: orderData.price});
+    await createOrderlines(orderlinesData, id);
+    return await getByOrderId(id);
+  }
+  catch(error) {
+    const logger = getLogger();
+    logger.error('Error in create', {error});
+    throw error;
+  }
+}
+
+const createOrderlines = async (orderlines, order) => {
+  const formatInsert = (data) => ({
+    OrderID: data.order ?? order,
+    ArticleID: data.article,
+    UserDescription: data.description,
+    PriceByOrder: data.price,
+    CharacterAmount: data.characters,
+    ReferenceImageUrl: data.imageUrl,
+    Status: data.status,
+    Detailed: data.detailed
+  });
+
+  try {
+    const orderlineArr = orderlines.map(formatInsert);
+    await getKnex()(tables.orderline)
+            .insert(orderlineArr);
+  }
+  catch(error) {
+    const logger = getLogger();
+    logger.error('Error in update', {error});
+    throw error;
+  }
+}
+
+const update = async ({ id, user, price, status }) => {
+  let data = { OrderID: id, UserID: user, OrderPrice: price, Status: status };
+
+  if(!user) delete data["UserID"];
+  if(!price) delete data["OrderPrice"];
+  if(!status) delete data["Status"];
+  
+  try {
+    await getKnex()(tables.order)
+      .where('OrderID', id)
+      .update(data);
+    return await getByOrderId(id);
+  }
+  catch(error) {
+    const logger = getLogger();
+    logger.error('Error in update', {error});
+    throw error;
+  }
+}
+
 module.exports = {
   getAll,
   getByOrderId,
@@ -65,5 +123,7 @@ module.exports = {
   countAll,
   getRecent,
   countCompleted,
-  countPending
+  countPending,
+  create,
+  update
 }

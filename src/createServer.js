@@ -32,7 +32,7 @@ function start() {
   installRest(router);
   
   logger.info(`🚀 Server listening on http://localhost:9000`);
-  app.listen(9000);
+  app.listen(port);
 }
 
 module.exports = {

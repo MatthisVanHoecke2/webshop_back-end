@@ -44,13 +44,12 @@ const create = async ({ name, email, password, isAdmin }) => {
     throw error;
   }
 } 
-const update = async ({ id, name, email, password, isAdmin }) => {
-  let data = { Username: name, Email: email, Password: password, isAdmin };
+const update = async ({ id, name, email, password }) => {
+  let data = { Username: name, Email: email, Password: password };
 
   if(!name) delete data["Username"];
   if(!email) delete data["Email"];
   if(!password) delete data["Password"];
-  if(!isAdmin) delete data["isAdmin"];
   
   try {
     await getKnex()(tables.user)

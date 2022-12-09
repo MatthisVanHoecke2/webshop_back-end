@@ -35,6 +35,16 @@ const countPending = async () => {
   return { items: items};
 }
 
+const create = async (data) => {
+  const items = await orderRepository.create(data);
+  return { items: items, count: items.length};
+}
+
+const update = async (data) => {
+  const items = await orderRepository.update(data);
+  return { items: items, count: items.length};
+}
+
 module.exports = {
   getAll,
   getByOrderId,
@@ -42,5 +52,7 @@ module.exports = {
   countAll,
   getRecent,
   countCompleted,
-  countPending
+  countPending,
+  create,
+  update
 }
