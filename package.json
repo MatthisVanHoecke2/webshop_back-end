@@ -16,6 +16,7 @@
     "koa-bodyparser": "^4.3.0",
     "mysql2": "^2.3.3",
     "node-emoji": "^1.11.0",
+    "serialize-error": "8.1.0",
     "winston": "^3.8.2",
     "yup": "^0.32.11"
   },

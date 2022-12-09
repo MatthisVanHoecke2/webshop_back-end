@@ -9,7 +9,10 @@ let logger;
 const loggerFormat = () => {
   const formatMessage = ({
     level, message, timestamp, ...rest
-  }) => `${timestamp} | ${level} | ${message} | ${JSON.stringify(rest)}`;
+  }) => `${timestamp} | ${level} | ${message} | ${Object.keys(rest).reduce((acc, cur) => {
+    if(rest[cur]) acc += rest[cur];
+    return acc;
+  }, '')}`;
 
   // Errors don't have a decent toString, so we need to format them manually
   const formatError = ({
