@@ -1,6 +1,8 @@
 module.exports = {
   port: 9000,
 
+  statustypes: ['In Queue', 'In Progress', 'Done'],
+
   log: {
     level: 'silly',
     disabled: false

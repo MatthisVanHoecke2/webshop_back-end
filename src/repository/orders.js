@@ -96,10 +96,9 @@ const createOrderlines = async (orderlines, order) => {
   }
 }
 
-const update = async ({ id, user, price, status }) => {
-  let data = { OrderID: id, UserID: user, OrderPrice: price, Status: status };
+const update = async ({ id, price, status }) => {
+  let data = { OrderID: id, OrderPrice: price, Status: status };
 
-  if(!user) delete data["UserID"];
   if(!price) delete data["OrderPrice"];
   if(!status) delete data["Status"];
   

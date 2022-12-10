@@ -10,7 +10,7 @@ const {serializeError} = require('serialize-error');
 const ServiceError = require('./core/serviceError');
 const CORS_ORIGINS = config.get('cors.origins');
 const CORS_MAX_AGE = config.get('cors.maxAge');
-const port = config.get('port');
+const PORT = config.get('port');
 const app = new Koa();
 const logger = getLogger();
 const router = new Router();
@@ -111,7 +111,7 @@ function start() {
   installRest(router);
   
   logger.info(`🚀 Server listening on http://localhost:9000`);
-  app.listen(port);
+  app.listen(PORT);
 }
 
 module.exports = {
