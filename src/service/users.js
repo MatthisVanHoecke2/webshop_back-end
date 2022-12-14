@@ -5,16 +5,16 @@ const { getLogger } = require("../core/logging");
 const ServiceError = require("../core/serviceError");
 
 const countAll = async () => {
-  const items = await userRepository.countAll();
-  return { items: items };
+  const count = await userRepository.countAll();
+  return { count };
 }
 const getAll = async () => {
   const items = await userRepository.getAll();
-  return {items: items, count: items.length};
+  return {items: items, count: items ? items.length : 0};
 }
 const getById = async (id) => {
   const items = await userRepository.getById(id);
-  return {items: items, count: items.length};
+  return {items: items, count: items ? items.length : 0};
 }
 const update = async (updateData) => {
   if(updateData.password) {
@@ -22,13 +22,13 @@ const update = async (updateData) => {
     updateData["password"] = passwordHash;
   }
   if(updateData.name && updateData.email) {
-    const existingUser = await userRepository.getByEmailOrUsername({name: updateData.name, email : updateData.email});
+    const existingUser = await userRepository.getByEmailOrUsername({name: updateData.name, email: updateData.email});
     if(existingUser) throw ServiceError.validationFailed('User already exists');
   }
 
 
-  const items = await userRepository.update(updateData);
-  return {items: items, count: items.length};
+  const item = await userRepository.update(updateData);
+  return {item: item};
 }
 
 const register = async ({name, email, password}) => {

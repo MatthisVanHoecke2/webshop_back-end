@@ -7,7 +7,6 @@ function messWithPayload(jwt) {
 	const [header, payload, signature] = jwt.split('.');
 	const parsedPayload = JSON.parse(Buffer.from(payload, 'base64url').toString());
 
-	// make me admin please ^^
 	parsedPayload.isAdmin = true;
 
 	const newPayload = Buffer.from(JSON.stringify(parsedPayload), 'ascii').toString('base64url');
@@ -24,14 +23,11 @@ async function main() {
 	};
 
 	const jwt = await generateJWT(fakeUser);
-	// copy and paste the JWT in the textfield on https://jwt.io
-	// inspect the content
 	console.log('The JWT:', jwt);
 
 	let valid = await verifyJWT(jwt);
 	console.log('This JWT is', valid ? 'valid' : 'incorrect');
 
-	// Let's mess with the payload
 	const messedUpJwt = messWithPayload(jwt);
 	console.log('Messed up JWT:', messedUpJwt);
 

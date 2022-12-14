@@ -8,6 +8,7 @@ const installRest = require('./rest/index');
 const emoji = require('node-emoji');
 const {serializeError} = require('serialize-error');
 const ServiceError = require('./core/serviceError');
+const { shutdownData, initializeData } = require('./data');
 const CORS_ORIGINS = config.get('cors.origins');
 const CORS_MAX_AGE = config.get('cors.maxAge');
 const PORT = config.get('port');
@@ -16,8 +17,7 @@ const logger = getLogger();
 const router = new Router();
 const NODE_ENV = config.get('env');
 
-
-function start() {
+module.exports = async function createServer() {
   app.use(async (ctx, next) => {
     const logger = getLogger();
     logger.info(`${emoji.get('fast-forward')} ${ctx.method} ${ctx.url}`);
@@ -108,12 +108,27 @@ function start() {
   .use(router.routes())
   .use(router.allowedMethods());
 
-  installRest(router);
-  
-  logger.info(`🚀 Server listening on http://localhost:9000`);
-  app.listen(PORT);
-}
+  await initializeData();
 
-module.exports = {
-  start
+  installRest(router);
+
+  return {
+    getApp() {
+      return app;
+    },
+
+    start() {
+      return new Promise((resolve) => {
+        app.listen(PORT);
+        logger.info(`🚀 Server listening on http://localhost:9000`);
+        resolve();
+      })
+    },
+
+    async stop() {
+      app.removeAllListeners();
+      await shutdownData();
+      getLogger().info('Goodbye');
+    }
+  }
 }

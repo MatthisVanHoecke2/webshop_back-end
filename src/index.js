@@ -11,12 +11,24 @@ initializeLogger({
   defaultMeta: NODE_ENV
 });
 
-const { initializeData } = require('./data/index');
-const { start } = require('./createServer');
+const createServer = require('./createServer');
 
 async function main() {
-  await initializeData();
+  try {
+    const server = await createServer();
+    await server.start();
+
+    async function onClose() {
+      await server.stop();
+      process.exit(0);
+    }
+
+    process.on('SIGTERM', onClose);
+    process.on('SIGQUIT', onClose);
+  }
+  catch(err) {
+    console.error(err);
+    process.exit(-1);
+  }
 }
 main();
-
-start();
