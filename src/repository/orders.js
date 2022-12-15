@@ -19,21 +19,21 @@ const getAll = async () => {
 const countAll = async () => {
   const order = await getKnex()(tables.order)
     .count({count: '*'});
-  return order;
+  return order[0];
 }
 
 const countCompleted = async () => {
   const order = await getKnex()(tables.order)
   	.where('Status', 'Done')
     .count({count: '*'});
-  return order;
+  return order[0];
 }
 
 const countPending = async () => {
   const order = await getKnex()(tables.order)
   	.whereNot('Status', 'Done')
     .count({count: '*'});
-  return order;
+  return order[0];
 }
 
 const getRecent = async () => {

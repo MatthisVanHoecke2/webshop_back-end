@@ -41,7 +41,9 @@ update.validationScheme = {
       name: 'update-status',
       skipAbsent: true,
       test(value) {
+        if(!value) return true;
         if(!statusTypes.includes(value)) throw ServiceError.validationFailed(`'${value}' is not a valid status`);
+        return true;
       }
     }),
     price: yup.number().positive(),
@@ -50,7 +52,9 @@ update.validationScheme = {
       name: 'update-image',
       skipAbsent: true,
       test(value) {
+        if(!value) return true;
         if(!value.endsWith('.png') && !value.endsWith('.jpg') && !value.endsWith('.jpeg')) throw ServiceError.validationFailed('URL has to end with .png, .jpg or .jpeg');
+        return true;
       }
     }), 
     detailed: yup.number().positive().integer()
@@ -68,6 +72,7 @@ create.validationScheme = {
       skipAbsent: false,
       test(value) {
         if(!statusTypes.includes(value)) throw ServiceError.validationFailed(`'${value}' is not a valid status`);
+        return true;
       }
     }),
     price: yup.number().required().positive(),
@@ -77,6 +82,7 @@ create.validationScheme = {
       skipAbsent: false,
       test(value) {
         if(!value.endsWith('.png') && !value.endsWith('.jpg') && !value.endsWith('.jpeg')) throw ServiceError.validationFailed('URL has to end with .png, .jpg or .jpeg');
+        return true;
       }
     }), 
     detailed: yup.number().required().positive().integer()

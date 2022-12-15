@@ -11,35 +11,35 @@ module.exports = {
 				Name: 'Background',
 				Price: 14,
 				ImageUrl:
-				'https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png',
+				'background2.png',
 				Description: "An artwork containing a detailed or blurry background",
 			},
       {
 				Name: 'Character',
 				Price: 9,
 				ImageUrl:
-				'https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png',
+				'head-shot.jpg',
 				Description: "An artwork containing a character",
 			},
       {
 				Name: 'Head',
 				Price: 9,
 				ImageUrl:
-				'https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png',
+				'head-shot.jpg',
 				Description: "An artwork containing a character's head",
 			},
       {
 				Name: 'Body',
 				Price: 15,
 				ImageUrl:
-				'https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png',
+				'half-body.jpg',
 				Description: "An artwork containing a character's upper body",
 			},
       {
 				Name: 'Full Body',
 				Price: 20,
 				ImageUrl:
-				'https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png',
+				'fullbody.jpg',
 				Description: "An artwork containing a character's full body",
 			},
 		]);

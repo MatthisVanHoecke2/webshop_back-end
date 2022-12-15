@@ -1,6 +1,6 @@
-const service = require('../service/users');
-const repository = require('../repository/users');
-const {hashPassword} = require('../core/password');
+const service = require('../src/service/users');
+const repository = require('../src/repository/users');
+const {hashPassword} = require('../src/core/password');
 
 describe('update user', () => {
   const data = {password: 'password123*', name: 'TestUser', email: 'test@gmail.com'};

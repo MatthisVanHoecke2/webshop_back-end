@@ -6,7 +6,7 @@ const ServiceError = require("../core/serviceError");
 
 const countAll = async () => {
   const count = await userRepository.countAll();
-  return { count };
+  return count;
 }
 const getAll = async () => {
   const items = await userRepository.getAll();
@@ -23,7 +23,7 @@ const update = async (updateData) => {
   }
   if(updateData.name && updateData.email) {
     const existingUser = await userRepository.getByEmailOrUsername({name: updateData.name, email: updateData.email});
-    if(existingUser) throw ServiceError.validationFailed('User already exists');
+    if(existingUser && existingUser.id !== updateData.id) throw ServiceError.validationFailed('User with that name or email already exists');
   }
 
 

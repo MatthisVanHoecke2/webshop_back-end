@@ -1,5 +1,5 @@
-const service = require('../service/orders');
-const repository = require('../repository/orders');
+const service = require('../src/service/orders');
+const repository = require('../src/repository/orders');
 const each = require('jest-each').default;
 
 describe('get all', () => {
@@ -133,19 +133,19 @@ describe('get by user id', () => {
 
 describe('count', () => {
   it('should return the amount of all orders', async () => {
-    repository.countAll = jest.fn().mockResolvedValue(6);
+    repository.countAll = jest.fn().mockResolvedValue({count: 6});
     const data = await service.countAll();
     expect(data).toEqual({count: 6});
   });
 
   it('should return the amount of all completed orders', async () => {
-    repository.countCompleted = jest.fn().mockResolvedValue(3);
+    repository.countCompleted = jest.fn().mockResolvedValue({count: 3});
     const data = await service.countCompleted();
     expect(data).toEqual({count: 3});
   });
 
   it('should return the amount of all pending orders', async () => {
-    repository.countPending = jest.fn().mockResolvedValue(3);
+    repository.countPending = jest.fn().mockResolvedValue({count: 3});
     const data = await service.countPending();
     expect(data).toEqual({count: 3});
   });

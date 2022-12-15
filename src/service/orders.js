@@ -18,7 +18,7 @@ const getByUserId = async (id) => {
 
 const countAll = async () => {
   const count = await orderRepository.countAll();
-  return { count };
+  return count;
 }
 
 const getRecent = async () => {
@@ -28,12 +28,12 @@ const getRecent = async () => {
 
 const countCompleted = async () => {
   const count = await orderRepository.countCompleted();
-  return { count };
+  return count;
 }
 
 const countPending = async () => {
   const count = await orderRepository.countPending();
-  return { count};
+  return count;
 }
 
 const create = async (data) => {

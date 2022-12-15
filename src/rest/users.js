@@ -27,9 +27,11 @@ const passwordValidation = {
   name: 'check-password',
   skipAbsent: true,
   test(value) {
+    if(!value) return true;
     if(!/^.*(.){8,}.*$/.test(value)) throw ServiceError.validationFailed('Password must be at least 8 characters long');
     else if(!/^.*([!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*){1,}.*$/.test(value)) throw ServiceError.validationFailed('Password must contain at least 1 special character');
     else if(!/^.*(\d{2,}).*$/.test(value)) throw ServiceError.validationFailed('Password must contain at least 2 numbers');
+    return true;
   }
 }
 
@@ -55,7 +57,7 @@ const login = async (ctx) => {
 login.validationScheme = {
   body: yup.object({
     user: yup.string().required(),
-    password: yup.string().test(passwordValidation) 
+    password: yup.string().required()
   })
 }
 
@@ -85,6 +87,7 @@ getByToken.validationScheme = {
       test(value) {
         if(!value) throw ServiceError.unauthorized("You need to be signed in");
         else if(!value.startsWith('Bearer ')) throw ServiceError.validationFailed("Invalid authentication token");
+        return true;
       }
     })
   })

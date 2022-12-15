@@ -12,7 +12,7 @@ const formatUser = ({ UserID, Username, Email, Password, isAdmin }) => ({
 const countAll = async () => {
   const user = await getKnex()(tables.user)
     .count({count: '*'});
-  return user;
+  return user[0];
 }
 
 const getAll = async () => {

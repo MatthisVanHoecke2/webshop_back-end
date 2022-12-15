@@ -1,4 +1,15 @@
 const config = require('config');
+const { initializeLogger } = require('./core/logging');
+
+const NODE_ENV = config.get('env');
+const LOG_LEVEL = config.get('log.level');
+const LOG_DISABLED = config.get('log.disabled');
+initializeLogger({
+  level: LOG_LEVEL,
+  disabled: LOG_DISABLED,
+  defaultMeta: NODE_ENV
+});
+
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const Router = require('@koa/router');
@@ -15,7 +26,6 @@ const PORT = config.get('port');
 const app = new Koa();
 const logger = getLogger();
 const router = new Router();
-const NODE_ENV = config.get('env');
 
 module.exports = async function createServer() {
   app.use(async (ctx, next) => {
