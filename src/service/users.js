@@ -34,7 +34,7 @@ const update = async (updateData) => {
 const register = async ({name, email, password}) => {
   const existingUser = await userRepository.getByEmailOrUsername({name, email});
 
-  if(existingUser) throw new ServiceError.validationFailed('User already exists');
+  if(existingUser) throw ServiceError.validationFailed('User already exists');
 
   const passwordHash = await hashPassword(password);
   const user = await userRepository.create({name, email, password: passwordHash, isAdmin: false});
@@ -56,12 +56,12 @@ const login = async (nameOrEmail, password) => {
   const user = await userRepository.getByEmailOrUsername({name: nameOrEmail});
 
   if(!user) {
-    throw new ServiceError.validationFailed("The given user and password do not match");
+    throw ServiceError.validationFailed("The given user and password do not match");
   }
   const passwordValid = await verifyPassword(password, user.password);
 
   if(!passwordValid) {
-    throw new ServiceError.validationFailed("The given user and password do not match");
+    throw ServiceError.validationFailed("The given user and password do not match");
   }
 
   return await makeLoginData(user);

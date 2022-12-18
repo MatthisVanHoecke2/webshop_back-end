@@ -6,13 +6,6 @@ const YUPOPTIONS = {
   strict: yup.boolean = false
 }
 
-const cleanupJoiError = (error) => {
-  console.log(error);
-  const { message, type } = error;
-
-	return { type, message };
-};
-
 const validate = (schema) => {
   const errors = {};
   if(!schema) {

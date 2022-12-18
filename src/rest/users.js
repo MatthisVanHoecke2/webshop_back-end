@@ -4,9 +4,84 @@ const { requireAuthentication, makeRequireRole } = require('../core/auth');
 const validate = require('./_validation');
 const ServiceError = require('../core/serviceError');
 
-const countAll = async (ctx) => {
-  ctx.body = await userService.countAll();
+const passwordValidation = {
+  name: 'check-password',
+  skipAbsent: true,
+  test(value) {
+    if(!value) return true;
+    if(!/^.*(.){8,}.*$/.test(value)) throw ServiceError.validationFailed('Password must be at least 8 characters long');
+    else if(!/^.*([!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*){1,}.*$/.test(value)) throw ServiceError.validationFailed('Password must contain at least 1 special character');
+    else if(!/^.*(\d{2,}).*$/.test(value)) throw ServiceError.validationFailed('Password must contain at least 2 numbers');
+    return true;
+  }
 }
+
+/**
+ * @openapi
+ * tags:
+ *   name: Users
+ *   description: Represents a registered user
+ */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     User:
+ *       allOf:
+ *         - $ref: "#/components/schemas/Base"
+ *         - type: object
+ *           required:
+ *             - name
+ *             - email
+ *             - password
+ *             - isAdmin
+ *           properties:
+ *             name:
+ *               type: "string"
+ *             email:
+ *               type: "string"
+ *             password:
+ *               type: "string"
+ *             isAdmin:
+ *               type: "smallint"
+ *           example:
+ *             $ref: "#/components/examples/User"
+ *     UserList:
+ *       allOf:
+ *         - $ref: "#/components/schemas/ListResponse"
+ *         - type: object
+ *           required:
+ *             - items
+ *           properties:
+ *             items:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/User"
+ *   examples:
+ *     User:
+ *       id: 100
+ *       name: "Edward Kenway"
+ *       email: "edward.kenway@gmail.com"
+ *       password: "0a123b92f789055b946659e816834465"
+ *       isAdmin: 1
+ *   requestBodies:
+ *     User:
+ *       description: The User info to save.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ */
+
 const getAll = async (ctx) => {
   ctx.body = await userService.getAll();
 }
@@ -20,19 +95,8 @@ getById.validationScheme = {
   }
 }
 
-
-
-
-const passwordValidation = {
-  name: 'check-password',
-  skipAbsent: true,
-  test(value) {
-    if(!value) return true;
-    if(!/^.*(.){8,}.*$/.test(value)) throw ServiceError.validationFailed('Password must be at least 8 characters long');
-    else if(!/^.*([!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*){1,}.*$/.test(value)) throw ServiceError.validationFailed('Password must contain at least 1 special character');
-    else if(!/^.*(\d{2,}).*$/.test(value)) throw ServiceError.validationFailed('Password must contain at least 2 numbers');
-    return true;
-  }
+const countAll = async (ctx) => {
+  ctx.body = await userService.countAll();
 }
 
 const update = async (ctx) => {

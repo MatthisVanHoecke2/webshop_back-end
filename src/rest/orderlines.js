@@ -6,6 +6,100 @@ const ServiceError = require('../core/serviceError');
 const validate = require('./_validation');
 const statusTypes = config.get('statustypes');
 
+/**
+ * @openapi
+ * tags:
+ *   name: Orderlines
+ *   description: Represents the details of an ordered item
+ */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Orderline:
+ *       allOf:
+ *         - $ref: "#/components/schemas/Base"
+ *         - type: object
+ *           required:
+ *             - article
+ *             - order
+ *             - description
+ *             - price
+ *             - characters
+ *             - detailed
+ *             - imageUrl
+ *             - status
+ *           properties:
+ *             article:
+ *               $ref: "#/components/schemas/Article"
+ *             order:
+ *               $ref: "#/components/schemas/Order"
+ *             description:
+ *               type: "string"
+ *             price:
+ *               type: "double"
+ *             characters:
+ *               type: "smallint"
+ *             detailed:
+ *               type: "smallint"
+ *             imageUrl:
+ *               type: "string"
+ *             status:
+ *               type: "string"
+ *           example:
+ *             $ref: "#/components/examples/Orderline"
+ *     OrderlineList:
+ *       allOf:
+ *         - $ref: "#/components/schemas/ListResponse"
+ *         - type: object
+ *           required:
+ *             - items
+ *           properties:
+ *             items:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/Orderline"
+ *   examples:
+ *     Orderline:
+ *       id: 150
+ *       article: 3
+ *       order: 100
+ *       description: "A simple description of an orderline"
+ *       price: 10.50
+ *       characters: 2
+ *       detailed: 1
+ *       imageUrl: "https://example.com/image.png"
+ *       status: "In Queue"
+ *   requestBodies:
+ *     Orderline:
+ *       description: The Orderline info to save.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               article:
+ *                 type: integer
+ *                 format: int32
+ *               order:
+ *                 type: integer
+ *                 format: int32
+ *               description:
+ *                 type: string
+ *               price:
+ *                 type: double
+ *               characters:
+ *                 type: smallint
+ *               detailed:
+ *                 type: smallint
+ *               imageUrl:
+ *                 type: string
+ *               status:
+ *                 type: string
+ */
+
 const getAll = async (ctx) => {
   ctx.body = await orderlineService.getAll();
 }

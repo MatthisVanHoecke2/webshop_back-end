@@ -26,8 +26,14 @@ const PORT = config.get('port');
 const app = new Koa();
 const logger = getLogger();
 const router = new Router();
+const swaggerJsdoc = require('swagger-jsdoc');
+const {koaSwagger} = require('koa2-swagger-ui');
+
+const swaggerOptions = require('../swagger.config');
 
 module.exports = async function createServer() {
+  await initializeData();
+
   app.use(async (ctx, next) => {
     const logger = getLogger();
     logger.info(`${emoji.get('fast-forward')} ${ctx.method} ${ctx.url}`);
@@ -66,7 +72,6 @@ module.exports = async function createServer() {
       }
     }
     catch(error) {
-
       const logger = getLogger();
       logger.error('Error occured while handling a request', {
         error: serializeError(error),
@@ -103,6 +108,16 @@ module.exports = async function createServer() {
     }
   })
 
+  const spec = swaggerJsdoc(swaggerOptions);
+  app.use(koaSwagger({
+    routePrefix: '/swagger',
+    specPrefix: 'swagger/spec',
+    exposeSpec: true,
+    swaggerOptions: {
+      spec
+    }
+  }));
+
   app.use(koaCors({
     origin: (ctx) => {
       if(CORS_ORIGINS.indexOf(ctx.request.header.origin) !== -1) return ctx.request.header.origin;
@@ -117,8 +132,6 @@ module.exports = async function createServer() {
   app
   .use(router.routes())
   .use(router.allowedMethods());
-
-  await initializeData();
 
   installRest(router);
 

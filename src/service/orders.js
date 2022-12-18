@@ -37,13 +37,13 @@ const countPending = async () => {
 }
 
 const create = async (data) => {
-  if(!data.orderData || !data.orderlinesData) throw new ServiceError.validationFailed('You must provide enough data to create a new order');
+  if(!data.orderData || !data.orderlinesData) throw ServiceError.validationFailed('You must provide enough data to create a new order');
   const items = await orderRepository.create(data);
   return { items: items, count: items ? items.length : 0};
 }
 
 const update = async (data) => {
-  if(!data) throw new ServiceError.validationFailed('You must provide enough data to update an order');
+  if(!data) throw ServiceError.validationFailed('You must provide enough data to update an order');
   const items = await orderRepository.update(data);
   return { items: items, count: items ? items.length : 0};
 }
