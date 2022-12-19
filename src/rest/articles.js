@@ -93,6 +93,10 @@ const validate = require('./_validation');
  *     responses:
  *       200:
  *         description: List of articles
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/ArticleList"
  */
 const getAll = async (ctx) => {
   ctx.body = await articleService.getAll();
@@ -102,7 +106,7 @@ const getAll = async (ctx) => {
  * @openapi
  * /api/articles/{id}:
  *   get:
- *     summary: Get a single article with a specific id
+ *     summary: Get a single article with the specified id
  *     tags:
  *      - Articles
  *     parameters:
@@ -113,7 +117,13 @@ const getAll = async (ctx) => {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/Article"
+ *               $ref: "#/components/schemas/ArticleList"
+ *       404:
+ *         description: No article with the given id could be found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/404NotFound'
  */
 const getById = async (ctx) => {
   ctx.body = await articleService.getById(ctx.params.id);
@@ -133,11 +143,11 @@ getById.validationScheme = {
  *      - Articles
  *     responses:
  *       200:
- *         description: The requested article
+ *         description: The requested articles
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/Article"
+ *               $ref: "#/components/schemas/ArticleList"
  */
 const getAllPortraits = async (ctx) => {
   ctx.body = await articleService.getAllPortraits();
@@ -145,9 +155,9 @@ const getAllPortraits = async (ctx) => {
 
 /**
  * @openapi
- * /api/articles/portraits/{id}:
+ * /api/articles/portraits/{type}:
  *   get:
- *     summary: Get all articles that are portraits
+ *     summary: Get the portrait with the specified type
  *     tags:
  *      - Articles
  *     parameters:
@@ -158,7 +168,13 @@ const getAllPortraits = async (ctx) => {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/Article"
+ *               $ref: "#/components/schemas/ArticleList"
+ *       404:
+ *         description: No portrait with the given type could be found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/404NotFound'
  */
 const getPortraitByType = async (ctx) => {
   ctx.body = await articleService.getPortraitByType(ctx.params.type);

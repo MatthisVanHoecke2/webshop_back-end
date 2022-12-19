@@ -51,54 +51,24 @@ const installOrderlineRoutes = require('../rest/orderlines');
  * @openapi
  * components:
  *   responses:
- *     400NotFound:
- *       description: The request resource could not be found
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - code
- *               - details
- *             properties:
- *               code:
- *                 type: string
- *               details:
- *                 type: string
- *                 description: Extra information about the specific not found error that occured
- *               stack:
- *                 type: string
- *                 description: Stack trace (only available if set in configuration)
- *           example:
- *             code: "NOT_FOUND"
- *             details: "No user with the id 123 exists"
- */
-
-/**
- * @openapi
- * components:
- *   responses:
  *     400BadRequest:
- *       description: You provided invalid data
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - code
- *               - details
- *             properties:
- *               code:
- *                 type: string
- *               details:
- *                 type: string
- *                 description: Extra information about the specific bad request error that occured
- *               stack:
- *                 type: string
- *                 description: Stack trace (only available if set in configuration)
+ *       allOf:
+ *         - type: object
+ *           required:
+ *             - code
+ *             - details
+ *           properties:
+ *             code:
+ *               type: string
+ *             details:
+ *               type: string
+ *               description: Extra information about the specific bad request error that occured
+ *             stack:
+ *               type: string
+ *               description: Stack trace (only available if set in configuration)
  *           example:
  *             code: "VALIDATION_FAILED"
- *             details: "You can only choose a rating between 1 and 5"
+ *             details: "Email needs to be a valid email address"
  */
 
 /**
@@ -106,26 +76,47 @@ const installOrderlineRoutes = require('../rest/orderlines');
  * components:
  *   responses:
  *     403Forbidden:
- *       description: You don't have access to this resource
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - code
- *               - details
- *             properties:
- *               code:
- *                 type: string
- *               details:
- *                 type: string
- *                 description: Extra information about the specific forbidden error that occured
- *               stack:
- *                 type: string
- *                 description: Stack trace (only available if set in configuration)
+ *       allOf:
+ *         - type: object
+ *           required:
+ *             - code
+ *             - details
+ *           properties:
+ *             code:
+ *               type: string
+ *             details:
+ *               type: string
+ *               description: Extra information about the specific forbidden error that occured
+ *             stack:
+ *               type: string
+ *               description: Stack trace (only available if set in configuration)
  *           example:
  *             code: "FORBIDDEN"
- *             details: "You are not allowed to view this user's information"
+ *             details: "You need to be logged in"
+ */
+
+/**
+ * @openapi
+ * components:
+ *   responses:
+ *     404NotFound:
+ *       allOf:
+ *         - type: object
+ *           required:
+ *             - code
+ *             - details
+ *           properties:
+ *             code:
+ *               type: string
+ *             details:
+ *               type: string
+ *               description: Extra information about the specific not found error that occured
+ *             stack:
+ *               type: string
+ *               description: Stack trace (only available if set in configuration)
+ *           example:
+ *             code: "NOT_FOUND"
+ *             details: "No user with the id 123 exists"
  */
 
 /**

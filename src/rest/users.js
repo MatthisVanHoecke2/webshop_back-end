@@ -66,7 +66,7 @@ const passwordValidation = {
  *       password: "0a123b92f789055b946659e816834465"
  *       isAdmin: 1
  *   requestBodies:
- *     User:
+ *     CreateUser:
  *       description: The User info to save.
  *       required: true
  *       content:
@@ -80,12 +80,66 @@ const passwordValidation = {
  *                 type: string
  *               password:
  *                 type: string
+ *     LoginUser:
+ *       description: The info to log in with.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user:
+ *                 type: string
+ *               password:
+ *                 type: string
  */
 
+/**
+ * @openapi
+ * /api/users:
+ *   get:
+ *     summary: Get all users
+ *     tags:
+ *      - Users
+ *     security:
+ *      - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/UserList"
+ */
 const getAll = async (ctx) => {
   ctx.body = await userService.getAll();
 }
 
+/**
+ * @openapi
+ * /api/users/{id}:
+ *   get:
+ *     summary: Get a single user with the specified id
+ *     tags:
+ *      - Users
+ *     parameters:
+ *       - $ref: "#/components/parameters/idParam"
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: The requested user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/UserList"
+ *       404:
+ *         description: No user with the given id could be found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/404NotFound'
+ */
 const getById = async (ctx) => {
   ctx.body = await userService.getById(ctx.params.id);
 }
@@ -95,10 +149,56 @@ getById.validationScheme = {
   }
 }
 
+/**
+ * @openapi
+ * /api/users/count:
+ *   get:
+ *     summary: Count all users
+ *     tags:
+ *      - Users
+ *     security:
+ *      - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Amount of users
+ */
 const countAll = async (ctx) => {
   ctx.body = await userService.countAll();
 }
 
+/**
+ * @openapi
+ * /api/users/{id}:
+ *   put:
+ *     summary: Update an existing user
+ *     tags:
+ *      - Users
+ *     security:
+ *      - bearerAuth: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/idParam"
+ *     requestBody:
+ *       $ref: "#/components/requestBodies/CreateUser"
+ *     responses:
+ *       200:
+ *         description: The updated user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/User"
+ *       400:
+ *         description: You provided invalid data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/400BadRequest'
+ *       404:
+ *         description: No user with the given id could be found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/404NotFound'
+ */
 const update = async (ctx) => {
   ctx.body = await userService.update({ id: ctx.params.id, ...ctx.request.body });
 }
@@ -113,6 +213,36 @@ update.validationScheme = {
   }
 }
 
+/**
+ * @openapi
+ * /api/users/login:
+ *   post:
+ *     summary: Login user
+ *     description: Log in as a registered user
+ *     tags:
+ *      - Users
+ *     requestBody:
+ *       $ref: '#/components/requestBodies/LoginUser'
+ *     responses:
+ *       200:
+ *         description: The logged in user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/User"
+ *       400:
+ *         description: You provided invalid data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/400BadRequest'
+ *       404:
+ *         description: No user with the name and password could be found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/404NotFound'
+ */
 const login = async (ctx) => {
   const { user, password } = ctx.request.body;
   const session = await userService.login(user, password);
@@ -125,6 +255,30 @@ login.validationScheme = {
   })
 }
 
+/**
+ * @openapi
+ * /api/users:
+ *   post:
+ *     summary: Create user
+ *     description: Register a user
+ *     tags:
+ *      - Users
+ *     requestBody:
+ *       $ref: '#/components/requestBodies/CreateUser'
+ *     responses:
+ *       200:
+ *         description: The created user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/User"
+ *       400:
+ *         description: You provided invalid data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/400BadRequest'
+ */
 const register = async (ctx) => {
   const session = await userService.register(ctx.request.body);
   ctx.body = session;
@@ -137,6 +291,34 @@ register.validationScheme = {
   })
 }
 
+/**
+ * @openapi
+ * /api/users/token:
+ *   get:
+ *     summary: Update an existing user
+ *     tags:
+ *      - Users
+ *     security:
+ *      - bearerAuth: []
+ *     parameters:
+ *       - in: header
+ *         name: token
+ *         type: string
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: The user with the specified token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/User"
+ *       400:
+ *         description: JWT expired or invalid token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/400BadRequest'
+ */
 const getByToken = async (ctx) => {
   const session = await userService.checkAndParseSession(ctx.headers.authorization);
   

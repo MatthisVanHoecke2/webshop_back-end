@@ -10,7 +10,7 @@ const statusTypes = config.get('statustypes');
  * @openapi
  * tags:
  *   name: Orderlines
- *   description: Represents the details of an ordered item
+ *   description: Represents the details of an ordered article
  */
 
 /**
@@ -100,10 +100,53 @@ const statusTypes = config.get('statustypes');
  *                 type: string
  */
 
+
+/**
+ * @openapi
+ * /api/orderlines:
+ *   get:
+ *     summary: Get all orderlines
+ *     tags:
+ *      - Orderlines
+ *     security:
+ *      - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of orderline
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/OrderlineList"
+ */
 const getAll = async (ctx) => {
   ctx.body = await orderlineService.getAll();
 }
 
+/**
+ * @openapi
+ * /api/orderlines/{id}:
+ *   get:
+ *     summary: Get a single orderline with the specified id
+ *     tags:
+ *      - Orderlines
+ *     parameters:
+ *       - $ref: "#/components/parameters/idParam"
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: The requested orderline
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/OrderlineList"
+ *       404:
+ *         description: No orderline with the given id could be found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/404NotFound'
+ */
 const getById = async (ctx) => {
   ctx.body = await orderlineService.getById(ctx.params.id);
 }
@@ -113,6 +156,31 @@ getById.validationScheme = {
   })
 }
 
+/**
+ * @openapi
+ * /api/orderlines/order/{id}:
+ *   get:
+ *     summary: Get all orderlines with the specified order id
+ *     tags:
+ *      - Orderlines
+ *     parameters:
+ *       - $ref: "#/components/parameters/idParam"
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: The requested orderlines
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/OrderlineList"
+ *       404:
+ *         description: No orderline with the given order id could be found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/404NotFound'
+ */
 const getByOrderId = async (ctx) => {
   ctx.body = await orderlineService.getByOrderId(ctx.params.id);
 }
@@ -122,6 +190,39 @@ getByOrderId.validationScheme = {
   })
 }
 
+/**
+ * @openapi
+ * /api/orderlines/{id}:
+ *   put:
+ *     summary: Update an existing orderline
+ *     tags:
+ *      - Orderlines
+ *     security:
+ *      - bearerAuth: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/idParam"
+ *     requestBody:
+ *       $ref: "#/components/requestBodies/Orderline"
+ *     responses:
+ *       200:
+ *         description: The updated orderline
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/Orderline"
+ *       400:
+ *         description: You provided invalid data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/400BadRequest'
+ *       404:
+ *         description: No orderline with the given id could be found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/404NotFound'
+ */
 const update = async (ctx) => {
   ctx.body = await orderlineService.update({id: ctx.params.id, ...ctx.request.body})
 }
@@ -155,6 +256,32 @@ update.validationScheme = {
   })
 }
 
+/**
+ * @openapi
+ * /api/orderlines:
+ *   post:
+ *     summary: Create orderline
+ *     description: Create an orderline
+ *     tags:
+ *      - Orderlines
+ *     security:
+ *      - bearerAuth: []
+ *     requestBody:
+ *       $ref: '#/components/requestBodies/Orderline'
+ *     responses:
+ *       200:
+ *         description: The created orderline
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/Orderline"
+ *       400:
+ *         description: You provided invalid data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/400BadRequest'
+ */
 const create = async (ctx) => {
   ctx.body = await orderlineService.create(ctx.request.body);
 }
@@ -192,5 +319,5 @@ module.exports = (router) => {
   router.get(`${prefix}/order/:id`, requireAuthentication, validate(getByOrderId.validationScheme), getByOrderId);
   router.get(`${prefix}/:id`, requireAuthentication, requireAdmin, validate(getById.validationScheme), getById);
   router.put(`${prefix}/:id`, requireAuthentication, requireAdmin, validate(update.validationScheme), update);
-  router.post(`${prefix}/create`, requireAuthentication, validate(create.validationScheme), create);
+  router.post(`${prefix}`, requireAuthentication, validate(create.validationScheme), create);
 }

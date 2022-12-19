@@ -10,7 +10,7 @@ const statusTypes = config.get('statustypes');
  * @openapi
  * tags:
  *   name: Orders
- *   description: Represents a collection of items ordered by the user
+ *   description: Represents a collection of articles ordered by the user
  */
 
 /**
@@ -145,6 +145,10 @@ const statusTypes = config.get('statustypes');
  *     responses:
  *       200:
  *         description: List of orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/OrderList"
  */
 const getAll = async (ctx) => {
   ctx.body = await orderService.getAll();
@@ -154,7 +158,7 @@ const getAll = async (ctx) => {
  * @openapi
  * /api/orders/{id}:
  *   get:
- *     summary: Get a single order with a specific id
+ *     summary: Get a single order with the specified id
  *     tags:
  *      - Orders
  *     parameters:
@@ -163,11 +167,17 @@ const getAll = async (ctx) => {
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: The requested article
+ *         description: The requested order
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/Orders"
+ *               $ref: "#/components/schemas/OrderList"
+ *       404:
+ *         description: No order with the given id could be found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/404NotFound'
  */
 const getById = async (ctx) => {
   ctx.body = await orderService.getByOrderId(ctx.params.id);
@@ -191,11 +201,17 @@ getById.validationScheme = {
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: The requested article
+ *         description: The requested orders
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/Orders"
+ *               $ref: "#/components/schemas/OrderList"
+ *       404:
+ *         description: No order with the given user id could be found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/404NotFound'
  */
 const getByUserId = async (ctx) => {
   ctx.body = await orderService.getByUserId(ctx.params.id);
@@ -292,7 +308,7 @@ const countPending = async (ctx) => {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/Order"
+ *               $ref: "#/components/schemas/OrderList"
  *       400:
  *         description: You provided invalid data
  *         content:
@@ -355,7 +371,7 @@ create.validationScheme = {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/Order"
+ *               $ref: "#/components/schemas/OrderList"
  *       400:
  *         description: You provided invalid data
  *         content:

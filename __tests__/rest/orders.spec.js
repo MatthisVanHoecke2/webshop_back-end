@@ -94,7 +94,7 @@ describe('orders', () => {
     });
 
     it('should 200 and return the created order', async () => {
-      const response = await request.post(`${url}/create`)
+      const response = await request.post(`${url}`)
         .send({
           orderData: {
             user: 3,
@@ -136,7 +136,7 @@ describe('orders', () => {
     });
 
     it('should 400 and if data is invalid', async () => {
-      const response = await request.post(`${url}/create`)
+      const response = await request.post(`${url}`)
         .send({
           orderData: {
           },
