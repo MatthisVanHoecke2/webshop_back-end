@@ -1,11 +1,7 @@
 module.exports = {
   port: 9000,
 
-  statustypes: {
-    queue: 'In Queue',
-    progress: 'In Progress',
-    done: 'Done'
-  },
+  statustypes: ['In Queue', 'In Progress', 'Done'],
 
   log: {
     level: 'info',
