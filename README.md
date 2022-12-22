@@ -1,13 +1,18 @@
 # Dee Watter Webshop REST api
 
 ## Description
-A front-end static website meant to automate custom orders made by customers who want to commission Dee Watter. This site will allow customers to create orders without needing to contact the artist themselves. It also allows the artist to get an overview of all the orders as well as update the orders' statuses.
+A fully functioning REST api designed to save and retrieve data to and from a database. It has both validation and authorization on all routes to make sure no invalid data can be saved.
+
+## Documentation
+- [Swagger](https://webservices-project.onrender.com/api/swagger)
 
 ## Requirements
+- [NodeJS](https://nodejs.org)
 - [Yarn](https://yarnpkg.com)
+- [MySQL Community Server](https://dev.mysql.com/downloads/mysql/)
 
 ## Startup
 - yarn start
 
 ## Tests
-- npx cypress open
+- yarn test
