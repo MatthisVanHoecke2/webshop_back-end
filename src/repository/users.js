@@ -24,7 +24,7 @@ const getById = async (id) => {
   const user = await getKnex()(tables.user)
     .select()
     .where('UserID', id);
-  return user.map(formatUser);
+  return user.map(formatUser)[0];
 }
 const getByEmailOrUsername = async ({name, email}) => {
   const user = await getKnex()(tables.user)

@@ -17,13 +17,16 @@ const getById = async (id) => {
   return {items: items, count: items ? items.length : 0};
 }
 const update = async (updateData) => {
+  const user = await getById(updateData.id);
+  if(!user.items) throw ServiceError.validationFailed(`User with id ${updateData.id} does not exist`);
+
   if(updateData.password) {
     passwordHash = await hashPassword(updateData.password);
     updateData["password"] = passwordHash;
   }
   if(updateData.name && updateData.email) {
     const existingUser = await userRepository.getByEmailOrUsername({name: updateData.name, email: updateData.email});
-    if(existingUser && existingUser.id !== updateData.id) throw ServiceError.validationFailed('User with that name or email already exists');
+    if(existingUser && existingUser.id !== updateData.id) throw ServiceError.validationFailed(`User with that name or email already exists`);
   }
 
 

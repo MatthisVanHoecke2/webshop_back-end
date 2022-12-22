@@ -321,7 +321,7 @@ register.validationScheme = {
  */
 const getByToken = async (ctx) => {
   const session = await userService.checkAndParseSession(ctx.headers.authorization);
-  
+
   if(session.message) throw ServiceError.validationFailed(session.message);
   else ctx.body = await userService.getById(session.id);
 }

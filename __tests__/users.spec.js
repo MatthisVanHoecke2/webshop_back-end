@@ -3,12 +3,15 @@ const repository = require('../src/repository/users');
 const {hashPassword} = require('../src/core/password');
 
 describe('update user', () => {
-  const data = {password: 'password123*', name: 'TestUser', email: 'test@gmail.com'};
+  const data = {id: 1, password: 'password123*', name: 'TestUser', email: 'test@gmail.com'};
 
   it('should update the user', async () => {
-    repository.getByEmailOrUsername = jest.fn();
+    repository.getById = jest.fn().mockResolvedValue({id: 1});
+    repository.getByEmailOrUsername = jest.fn().mockResolvedValue({id: 1});
     repository.update = jest.fn();
     await service.update(data);
+    expect(repository.getById).toHaveBeenCalled();
+    expect(repository.getById).toHaveBeenCalledWith(data.id);
     expect(repository.getByEmailOrUsername).toHaveBeenCalled();
     expect(repository.getByEmailOrUsername).toHaveBeenCalledWith({name: data.name, email: data.email});
     expect(repository.update).toHaveBeenCalled();
@@ -16,11 +19,11 @@ describe('update user', () => {
   });
 
   it('should not update the user when user does not exist', async () => {
-    repository.getByEmailOrUsername = jest.fn().mockResolvedValue({id: 1});
+    repository.getById = jest.fn();
     repository.update = jest.fn();
     await expect(service.update(data)).rejects.toThrow();
-    expect(repository.getByEmailOrUsername).toHaveBeenCalled();
-    expect(repository.getByEmailOrUsername).toHaveBeenCalledWith({name: data.name, email: data.email});
+    expect(repository.getById).toHaveBeenCalled();
+    expect(repository.getById).toHaveBeenCalledWith(data.id);
   })
 })
 

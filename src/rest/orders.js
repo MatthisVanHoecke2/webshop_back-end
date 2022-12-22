@@ -326,7 +326,6 @@ create.validationScheme = {
       price: yup.number().required().positive()
     }),
     orderlinesData: yup.array(yup.object({
-      order: yup.number().required().positive().integer(),
       article: yup.number().required().positive().integer(),
       status: yup.string().default(statusTypes[0]).test({
         name: 'create-status',
